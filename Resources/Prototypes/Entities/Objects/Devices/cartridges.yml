@@ -1,5 +1,23 @@
 ﻿- type: entity
   parent: BaseItem
+  id: YipYapCartridge
+  name: yipyap cartridge
+  description: YipYap
+  components:
+  - type: Sprite
+    sprite: Objects/Devices/cartridge.rsi
+    state: cart-y
+  - type: UIFragment
+    ui: !type:YipYapUi
+  - type: Cartridge
+    programName: yipyap-program-name
+    icon:
+      sprite:  Objects/Misc/books.rsi
+      state: book_icon
+  - type: YipYapCartridge
+
+- type: entity
+  parent: BaseItem
   id: NotekeeperCartridge
   name: notekeeper cartridge
   description: A program for keeping notes
@@ -15,6 +33,7 @@
       sprite:  Objects/Misc/books.rsi
       state: book_icon
   - type: NotekeeperCartridge
+
 
 - type: entity
   parent: BaseItem
