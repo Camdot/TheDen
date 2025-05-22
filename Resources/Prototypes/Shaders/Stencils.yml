@@ -12,7 +12,7 @@
   kind: source
   path: "/Textures/Shaders/stencil_mask.swsl"
   stencil:
-    ref: 1
+    ref: 2
     op: Replace
     func: Always
 
