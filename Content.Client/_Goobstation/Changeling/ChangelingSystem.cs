@@ -12,12 +12,19 @@ public sealed class ChangelingSystem : SharedChangelingSystem
     private const int MaxChemicalsNormalizer = 18;
     private const int MaxBiomassNormalizer = 16;
     [Dependency] private readonly IPrototypeManager _prototype = default!;
+
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<ChangelingComponent, UpdateAlertSpriteEvent>(OnUpdateAlert);
         SubscribeLocalEvent<ChangelingComponent, GetStatusIconsEvent>(GetChanglingIcon);
+    }
+
+    private void GetChanglingIcon(Entity<ChangelingComponent> ent, ref GetStatusIconsEvent args)
+    {
+        if (HasComp<HivemindComponent>(ent) && _prototype.TryIndex(ent.Comp.StatusIcon, out var iconPrototype))
+            args.StatusIcons.Add(iconPrototype);
     }
 
     private void OnUpdateAlert(EntityUid uid, ChangelingComponent comp, ref UpdateAlertSpriteEvent args)
@@ -39,11 +46,5 @@ public sealed class ChangelingSystem : SharedChangelingSystem
         }
         var sprite = args.SpriteViewEnt.Comp;
         sprite.LayerSetState(AlertVisualLayers.Base, $"{stateNormalized}");
-    }
-
-    private void GetChanglingIcon(Entity<ChangelingComponent> ent, ref GetStatusIconsEvent args)
-    {
-        if (HasComp<HivemindComponent>(ent) && _prototype.TryIndex(ent.Comp.StatusIcon, out var iconPrototype))
-            args.StatusIcons.Add(iconPrototype);
     }
 }

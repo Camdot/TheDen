@@ -1,3 +1,4 @@
+using Content.Server.Consent;
 using Content.Server.Light.Components;
 using Content.Server.Nutrition.Components;
 using Content.Server.Objectives.Components;
@@ -30,6 +31,7 @@ namespace Content.Server.Changeling;
 
 public sealed partial class ChangelingSystem
 {
+    [Dependency] private readonly ConsentSystem _consent = default!;
     public void SubscribeAbilities()
     {
         SubscribeLocalEvent<ChangelingComponent, OpenEvolutionMenuEvent>(OnOpenEvolutionMenu);
@@ -221,6 +223,12 @@ public sealed partial class ChangelingSystem
             return;
         }
         if (!HasComp<AbsorbableComponent>(target))
+        {
+            _popup.PopupEntity(Loc.GetString("changeling-convert-fail-incompatible"), uid, uid);
+            return;
+        }
+
+        if (!_consent.HasConsent(uid, "NoClone"))
         {
             _popup.PopupEntity(Loc.GetString("changeling-convert-fail-incompatible"), uid, uid);
             return;
