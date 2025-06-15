@@ -1,0 +1,23 @@
+﻿<controls:DenuPopup
+    xmlns="https://spacestation14.io"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    xmlns:controls="clr-namespace:Content.Client.UserInterface.Systems.Chat.Controls.Denu"
+    xmlns:data="clr-namespace:Avalonia.Data;assembly=Robust.Client">
+
+    <PanelContainer Name="FilterPopupPanel" StyleClasses="BorderedWindowPanel">
+        
+        <BoxContainer Orientation="Vertical" SeparationOverride="8" Margin="8 8">
+            
+            <Button Name="TypingToggleButton" Text="Typing Toggle" ToolTip="Typing Toggle" />
+            
+            <Button Name="SomeButton" Text="SomeButton" ToolTip="SomeButton" />
+            
+            <Label Name="TimestampLabel" Text=""></Label>
+            
+            <!-- <controls:BoundLabel Path="labelText" Text="Loc abcd"></controls:BoundLabel> -->
+            
+        </BoxContainer>
+        
+    </PanelContainer>
+
+</controls:DenuPopup>
