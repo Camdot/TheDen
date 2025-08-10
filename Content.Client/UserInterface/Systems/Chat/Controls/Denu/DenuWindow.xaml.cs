@@ -77,6 +77,8 @@ public sealed partial class DenuWindow : AnimatedWindow
             UpdateExamplePreview();
             UpdateLivePreview();
         };
+
+        EarmuffSlider.OnValueChanged += OnEarmuffSliderChanged;
     }
 
     private void SetupColorSelectors()
@@ -128,5 +130,12 @@ public sealed partial class DenuWindow : AnimatedWindow
     {
         string message = GetChatInputText();
         return string.IsNullOrWhiteSpace(message) ? GetExampleText() : _denuUIController.FormatMessage(message);
+    }
+
+    private void OnEarmuffSliderChanged(Robust.Client.UserInterface.Controls.Range range)
+    {
+        var value = range.Value;
+        EarmuffDistanceLabel.Text = value.ToString("F1");
+        _denuUIController.SetEarmuffRange(value);
     }
 }

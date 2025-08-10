@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later AND MIT
 
 using Content.Client.Chat.TypingIndicator;
+using Robust.Client.Graphics;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controllers;
 
@@ -15,6 +16,7 @@ namespace Content.Client.UserInterface.Systems.Chat.Controls.Denu;
 public sealed class DenuUIController : UIController
 {
     [UISystemDependency] private readonly TypingIndicatorSystem _typingIndicatorSystem = default!;
+    [Dependency] private readonly IOverlayManager _overlayManager = default!;
 
     public bool AutoFormatterEnabled { get; set; } = false;
 
@@ -41,6 +43,7 @@ public sealed class DenuUIController : UIController
     };
 
     private DenuWindow? _denuWindow;
+    private CircleOverlay? _circleOverlay;
 
     public void CreateWindow()
     {
@@ -81,4 +84,26 @@ public sealed class DenuUIController : UIController
 
     public void HideTypingIndicator() =>
         _typingIndicatorSystem.ClientSubmittedChatText();
+
+    public void SetEarmuffRange(float range)
+    {
+        if (_circleOverlay == null)
+        {
+            _circleOverlay = new CircleOverlay();
+            _circleOverlay.OnFullyFaded += RemoveCircleOverlay;
+            _overlayManager.AddOverlay(_circleOverlay);
+        }
+        
+        _circleOverlay.Range = range;
+        _circleOverlay.ShowCircle();
+    }
+
+    private void RemoveCircleOverlay()
+    {
+        if (_circleOverlay != null)
+        {
+            _overlayManager.RemoveOverlay(_circleOverlay);
+            _circleOverlay = null;
+        }
+    }
 }
